@@ -19,6 +19,7 @@ const FormPreview = () => {
       [fieldName]: value, 
     }));
 
+   
     setErrors((prevErrors) => ({
       ...prevErrors,
       [fieldName]: value.trim() === "" ? "This field is required" : null,
@@ -79,8 +80,8 @@ const FormPreview = () => {
                 <input
                   className="border rounded px-2 py-1 w-full"
                   type={field.type}
-                  name={field.name}  // Ensure the field has a unique name
-                  value={formData[field.name] || ""}  // Bind only the relevant field
+                  name={field.name}  
+                  value={formData[field.name] || ""}  
                   onChange={(e) => handleChange(e, field.name)}
                 />
                 {errors[field.name] && (
