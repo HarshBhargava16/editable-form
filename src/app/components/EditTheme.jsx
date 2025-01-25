@@ -6,7 +6,7 @@ const EditTheme = ({ closeEditor }) => {
   const dispatch = useDispatch();
 
   const updateThemeSetting = (key, value) => {
-    dispatch(updateTheme({ [key]: value })); // Ensure the payload is an object
+    dispatch(updateTheme({ [key]: value })); 
   };
 
   return (
