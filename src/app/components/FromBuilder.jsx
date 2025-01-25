@@ -1,30 +1,41 @@
-'use client'
-import { useState } from 'react'
-import { useDispatch } from 'react-redux';
-import {addField} from '../store/FormSlice'
-const FromBuilder = () => {
+"use client";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { addField } from "../store/FormSlice";
 
+const FormBuilder = () => {
   const dispatch = useDispatch();
+  const fields = useSelector((state) => state.form.fields);
 
   const [newField, setNewField] = useState({
     label: "",
     type: "text",
-    value: "",
   });
 
-  const AddField = () =>
-    {
-      dispatch(addField(newField));
-      setNewField({
-        label: "",
-        type: "text",
-        value: "",
-      });
+  const addNewField = () => {
+    if (!newField.label.trim()) {
+      alert("Label is required!");
+      return;
     }
 
+    // Check if a field with the same label already exists
+    const isDuplicate = fields.some((field) => field.label === newField.label);
+    if (isDuplicate) {
+      alert("Field label must be unique!");
+      return;
+    }
+
+    dispatch(addField(newField));
+
+    setNewField({
+      label: "",
+      type: "text",
+    });
+  };
+
   return (
-    <div className="p-4 rounded-lg  border bg-white">
-      <h2 className="text-xl text-center font-bold mb-4 ">Edit Mode</h2>
+    <div className="p-4 rounded-lg border bg-white">
+      <h2 className="text-xl text-center font-bold mb-4">Edit Mode</h2>
       <input
         type="text"
         placeholder="Enter Label Field"
@@ -43,13 +54,13 @@ const FromBuilder = () => {
       </select>
 
       <button
-        onClick={AddField}
+        onClick={addNewField}
         className="bg-blue-600 border rounded text-white px-2 py-1 hover:bg-blue-700"
       >
-        Add Filed
+        Add Field
       </button>
     </div>
   );
-}
+};
 
-export default FromBuilder
+export default FormBuilder;
