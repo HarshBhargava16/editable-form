@@ -11,18 +11,17 @@ const FormPreview = () => {
   const [formData, setFormData] = useState({});
   const [errors, setErrors] = useState({});
 
-  const handleChange = (e, fieldName) => {
+  const handleChange = (e, label) => {
     const { value } = e.target;
-    
+
     setFormData((prevData) => ({
       ...prevData,
-      [fieldName]: value, 
+      [label]: value,
     }));
 
-   
     setErrors((prevErrors) => ({
       ...prevErrors,
-      [fieldName]: value.trim() === "" ? "This field is required" : null,
+      [label]: value.trim() === "" ? "This field is required" : null,
     }));
   };
 
@@ -32,8 +31,8 @@ const FormPreview = () => {
     const newErrors = {};
 
     fields.forEach((field) => {
-      if (!formData[field.name] || formData[field.name].trim() === "") {
-        newErrors[field.name] = "This field is required";
+      if (!formData[field.label] || formData[field.label].trim() === "") {
+        newErrors[field.label] = "This field is required";
       }
     });
 
@@ -80,12 +79,11 @@ const FormPreview = () => {
                 <input
                   className="border rounded px-2 py-1 w-full"
                   type={field.type}
-                  name={field.name}  
-                  value={formData[field.name] || ""}  
-                  onChange={(e) => handleChange(e, field.name)}
+                  value={formData[field.label] || ""}
+                  onChange={(e) => handleChange(e, field.label)}
                 />
-                {errors[field.name] && (
-                  <p className="text-red-500 text-sm">{errors[field.name]}</p>
+                {errors[field.label] && (
+                  <p className="text-red-500 text-sm">{errors[field.label]}</p>
                 )}
               </div>
             ))}
