@@ -18,7 +18,6 @@ const FormBuilder = () => {
       return;
     }
 
-    // Check if a field with the same label already exists
     const isDuplicate = fields.some((field) => field.label === newField.label);
     if (isDuplicate) {
       alert("Field label must be unique!");
