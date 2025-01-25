@@ -13,14 +13,15 @@ const FormPreview = () => {
 
   const handleChange = (e, fieldName) => {
     const { value } = e.target;
+    
     setFormData((prevData) => ({
       ...prevData,
-      [fieldName]: value,
+      [fieldName]: value, 
     }));
 
-    setErrors((error) => ({
-      ...error,
-      [fieldName]: value.trim === "" ? "this field is required" : null,
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      [fieldName]: value.trim() === "" ? "This field is required" : null,
     }));
   };
 
@@ -28,19 +29,21 @@ const FormPreview = () => {
     e.preventDefault();
 
     const newErrors = {};
+
     fields.forEach((field) => {
       if (!formData[field.name] || formData[field.name].trim() === "") {
         newErrors[field.name] = "This field is required";
       }
     });
+
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       alert("Please fill all required fields before submitting.");
       return;
     }
-    
-     alert("Form Submitted Successfully");
-     console.log("Form Data:", formData);
+
+    alert("Form Submitted Successfully");
+    console.log("Form Data:", formData);
   };
 
   return (
@@ -76,7 +79,8 @@ const FormPreview = () => {
                 <input
                   className="border rounded px-2 py-1 w-full"
                   type={field.type}
-                  value={formData[field.name] || ""}
+                  name={field.name}  // Ensure the field has a unique name
+                  value={formData[field.name] || ""}  // Bind only the relevant field
                   onChange={(e) => handleChange(e, field.name)}
                 />
                 {errors[field.name] && (
